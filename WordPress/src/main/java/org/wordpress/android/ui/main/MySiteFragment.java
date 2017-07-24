@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ import org.wordpress.android.ui.ActivityLauncher;
 import org.wordpress.android.ui.RequestCodes;
 import org.wordpress.android.ui.comments.CommentsListFragment.CommentStatusCriteria;
 import org.wordpress.android.ui.posts.EditPostActivity;
+import org.wordpress.android.ui.posts.PromoDialog;
 import org.wordpress.android.ui.prefs.AppPrefs;
 import org.wordpress.android.ui.stats.service.StatsService;
 import org.wordpress.android.ui.themes.ThemeBrowserActivity;
@@ -296,8 +299,22 @@ public class MySiteFragment extends Fragment
                         && data.getBooleanExtra(EditPostActivity.EXTRA_SAVED_AS_LOCAL_DRAFT, false)) {
                     showAlert(getView().findViewById(R.id.postsGlowBackground));
                 }
+                showAsyncPromoDialogIfNeeded();
                 break;
         }
+    }
+
+    private void showAsyncPromoDialogIfNeeded() {
+//        if (AppPrefs.isAsyncPromoRequired()) {
+        AppCompatDialogFragment newFragment = PromoDialog.newInstance(
+                R.drawable.img_promo_editor,
+                R.string.async_promo_title,
+                R.string.async_promo_description,
+                R.string.async_promo_button_positive
+        );
+        newFragment.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "async-promo");
+        AppPrefs.setAsyncPromoRequired(false);
+//        }
     }
 
     private void showAlert(View view) {

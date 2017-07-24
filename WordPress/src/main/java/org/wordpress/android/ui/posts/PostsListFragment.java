@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -44,6 +45,7 @@ import org.wordpress.android.ui.EmptyViewMessageType;
 import org.wordpress.android.ui.notifications.utils.PendingDraftsNotificationsUtils;
 import org.wordpress.android.ui.posts.adapters.PostsListAdapter;
 import org.wordpress.android.ui.posts.adapters.PostsListAdapter.LoadMode;
+import org.wordpress.android.ui.prefs.AppPrefs;
 import org.wordpress.android.ui.uploads.PostEvents;
 import org.wordpress.android.ui.uploads.UploadService;
 import org.wordpress.android.util.AniUtils;
@@ -187,7 +189,22 @@ public class PostsListFragment extends Fragment
         return view;
     }
 
+    private void showAsyncPromoDialogIfNeeded() {
+//        if (AppPrefs.isAsyncPromoRequired()) {
+        AppCompatDialogFragment newFragment = PromoDialog.newInstance(
+                R.drawable.img_promo_editor,
+                R.string.async_promo_title,
+                R.string.async_promo_description,
+                R.string.async_promo_button_positive
+        );
+        newFragment.show(((PostsListActivity) getActivity()).getSupportFragmentManager(), "async-promo");
+        AppPrefs.setAsyncPromoRequired(false);
+//        }
+    }
+
     public void handleEditPostResult(int resultCode, Intent data) {
+        showAsyncPromoDialogIfNeeded();
+
         if (resultCode != Activity.RESULT_OK || data == null || !isAdded()) {
             return;
         }
