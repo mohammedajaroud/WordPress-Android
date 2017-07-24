@@ -5,7 +5,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import org.wordpress.android.BuildConfig;
 import org.wordpress.android.WordPress;
 import org.wordpress.android.analytics.AnalyticsTracker;
 import org.wordpress.android.analytics.AnalyticsTracker.Stat;
@@ -112,6 +111,9 @@ public class AppPrefs {
 
         // When we need to show the new editor promo dialog
         AZTEC_EDITOR_PROMO_REQUIRED,
+
+        // When we need to show the async promo dialog
+        ASYNC_PROMO_REQUIRED,
 
         // When we need to show the new image optimize promo dialog
         IMAGE_OPTIMIZE_PROMO_REQUIRED,
@@ -452,6 +454,10 @@ public class AppPrefs {
        return getBoolean(UndeletablePrefKey.AZTEC_EDITOR_PROMO_REQUIRED, true);
    }
 
+    public static boolean isAsyncPromoRequired() {
+        return getBoolean(UndeletablePrefKey.ASYNC_PROMO_REQUIRED, true);
+    }
+
     public static void setNewEditorBetaRequired(boolean required) {
         setBoolean(UndeletablePrefKey.AZTEC_EDITOR_BETA_REQUIRED, required);
     }
@@ -459,6 +465,10 @@ public class AppPrefs {
     public static void setNewEditorPromoRequired(boolean required) {
        setBoolean(UndeletablePrefKey.AZTEC_EDITOR_PROMO_REQUIRED, required);
    }
+
+    public static void setAsyncPromoRequired(boolean required) {
+        setBoolean(UndeletablePrefKey.ASYNC_PROMO_REQUIRED, required);
+    }
 
     public static boolean isImageOptimizePromoRequired() {
         return getBoolean(UndeletablePrefKey.IMAGE_OPTIMIZE_PROMO_REQUIRED, true);

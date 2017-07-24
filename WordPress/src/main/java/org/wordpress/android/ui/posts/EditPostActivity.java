@@ -765,7 +765,11 @@ public class EditPostActivity extends AppCompatActivity implements
         }
 
         if (itemId == R.id.menu_save_post) {
-            publishPost();
+//            if (AppPrefs.isAsyncPromoRequired()) {
+                showAsyncPromoDialog();
+//            } else {
+//                publishPost();
+//            }
         } else {
             // Disable other action bar buttons while a media upload is in progress
             // (unnecessary for Aztec since it supports progress reattachment)
@@ -2505,5 +2509,22 @@ public class EditPostActivity extends AppCompatActivity implements
     @Override
     public SiteModel getSite() {
         return mSite;
+    }
+
+    private void showAsyncPromoDialog() {
+        PromoDialog newFragment = PromoDialog.newInstance(
+                R.drawable.img_promo_editor,
+                R.string.async_promo_title,
+                R.string.async_promo_description,
+                R.string.async_promo_button_positive
+        );
+        newFragment.setPositiveButtonOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                publishPost();
+            }
+        });
+        newFragment.show(getSupportFragmentManager(), "async-promo");
+        AppPrefs.setAsyncPromoRequired(false);
     }
 }
