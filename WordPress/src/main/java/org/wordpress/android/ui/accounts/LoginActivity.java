@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import org.wordpress.android.R;
 import org.wordpress.android.WordPress;
+import org.wordpress.android.analytics.AnalyticsTracker;
 import org.wordpress.android.ui.ActivityLauncher;
 import org.wordpress.android.ui.RequestCodes;
 import org.wordpress.android.ui.accounts.login.Login2FaFragment;
@@ -191,6 +192,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
 
     @Override
     public void usePasswordInstead(String email) {
+        AnalyticsTracker.track(AnalyticsTracker.Stat.LOGIN_MAGIC_LINK_EXITED);
         LoginEmailPasswordFragment loginEmailPasswordFragment = LoginEmailPasswordFragment.newInstance(email, null);
         slideInFragment(loginEmailPasswordFragment, true, LoginEmailFragment.TAG);
     }
