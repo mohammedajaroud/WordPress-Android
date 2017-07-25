@@ -40,6 +40,8 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         setContentView(R.layout.login_activity);
 
         if (savedInstanceState == null) {
+            AnalyticsTracker.track(AnalyticsTracker.Stat.LOGIN_ACCESSED);
+
             switch (getLoginMode()) {
                 case FULL:
                     showFragment(new LoginPrologueFragment(), LoginPrologueFragment.TAG);
