@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
     public void usePasswordInstead(String email) {
         AnalyticsTracker.track(AnalyticsTracker.Stat.LOGIN_MAGIC_LINK_EXITED);
         LoginEmailPasswordFragment loginEmailPasswordFragment = LoginEmailPasswordFragment.newInstance(email, null);
-        slideInFragment(loginEmailPasswordFragment, true, LoginEmailFragment.TAG);
+        slideInFragment(loginEmailPasswordFragment, true, LoginEmailPasswordFragment.TAG);
     }
 
     @Override
