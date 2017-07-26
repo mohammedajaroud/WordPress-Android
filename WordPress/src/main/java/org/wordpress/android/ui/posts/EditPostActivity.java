@@ -765,11 +765,7 @@ public class EditPostActivity extends AppCompatActivity implements
         }
 
         if (itemId == R.id.menu_save_post) {
-//            if (AppPrefs.isAsyncPromoRequired()) {
-                showAsyncPromoDialog();
-//            } else {
-//                publishPost();
-//            }
+            publishPost();
         } else {
             // Disable other action bar buttons while a media upload is in progress
             // (unnecessary for Aztec since it supports progress reattachment)
@@ -1761,6 +1757,7 @@ public class EditPostActivity extends AppCompatActivity implements
                     MediaModel media = queueFileForUpload(uri, getContentResolver().getType(uri));
                     MediaFile mediaFile = FluxCUtils.mediaFileFromMediaModel(media);
                     if (media != null) {
+                        showAsyncPromoDialogIfNeeded();
                         mEditorFragment.appendMediaFile(mediaFile, path, mImageLoader);
                     }
                 }
@@ -1801,6 +1798,7 @@ public class EditPostActivity extends AppCompatActivity implements
         MediaModel media = queueFileForUpload(uri, getContentResolver().getType(uri));
         MediaFile mediaFile = FluxCUtils.mediaFileFromMediaModel(media);
         if (media != null) {
+            showAsyncPromoDialogIfNeeded();
             mEditorFragment.appendMediaFile(mediaFile, path, mImageLoader);
         }
 
@@ -2511,20 +2509,16 @@ public class EditPostActivity extends AppCompatActivity implements
         return mSite;
     }
 
-    private void showAsyncPromoDialog() {
+    private void showAsyncPromoDialogIfNeeded() {
+//        if (AppPrefs.isAsyncPromoRequired()) {
         PromoDialog newFragment = PromoDialog.newInstance(
                 R.drawable.img_promo_editor,
                 R.string.async_promo_title,
                 R.string.async_promo_description,
-                R.string.async_promo_button_positive
+                android.R.string.ok
         );
-        newFragment.setPositiveButtonOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                publishPost();
-            }
-        });
         newFragment.show(getSupportFragmentManager(), "async-promo");
         AppPrefs.setAsyncPromoRequired(false);
+//    }
     }
 }
